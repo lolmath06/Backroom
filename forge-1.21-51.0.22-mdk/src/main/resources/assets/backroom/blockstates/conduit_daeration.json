@@ -1,0 +1,8 @@
+{
+	"variants": {
+		"facing=north": { "model": "backroom:block/conduit_daeration" },
+		"facing=east": { "model": "backroom:block/conduit_daeration", "y": 90 },
+		"facing=south": { "model": "backroom:block/conduit_daeration", "y": 180 },
+		"facing=west": { "model": "backroom:block/conduit_daeration", "y": 270 }
+	}
+}

@@ -1,0 +1,8 @@
+{
+	"variants": {
+		"facing=north": { "model": "backroom:block/chaise_manilla" },
+		"facing=east": { "model": "backroom:block/chaise_manilla", "y": 90 },
+		"facing=south": { "model": "backroom:block/chaise_manilla", "y": 180 },
+		"facing=west": { "model": "backroom:block/chaise_manilla", "y": 270 }
+	}
+}

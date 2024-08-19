@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "backroom:block/etagere" },
+    "facing=east": { "model": "backroom:block/etagere", "y": 90 },
+    "facing=south": { "model": "backroom:block/etagere", "y": 180 },
+    "facing=west": { "model": "backroom:block/etagere", "y": 270 }
+  }
+}

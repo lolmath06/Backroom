@@ -1,0 +1,26 @@
+modLoader="javafml"
+loaderVersion="[51,)"
+license="All Rights Reserved"
+
+[[mods]]
+modId="backroom"
+version="1.0.0"
+displayName="Backroom Mod"
+authors="Dolmen, Matheo"
+description='''
+This is a Backroom mod.
+'''
+
+[[dependencies.backroom]]
+modId="forge"
+mandatory=true
+versionRange="[51,)"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.backroom]]
+modId="minecraft"
+mandatory=true
+versionRange="[1.21,1.22)"
+ordering="NONE"
+side="BOTH"

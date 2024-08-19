@@ -1,0 +1,8 @@
+{
+	"variants": {
+		"facing=north": { "model": "backroom:block/bordure_en_beton2_etage1" },
+		"facing=east": { "model": "backroom:block/bordure_en_beton2_etage1", "y": 90 },
+		"facing=south": { "model": "backroom:block/bordure_en_beton2_etage1", "y": 180 },
+		"facing=west": { "model": "backroom:block/bordure_en_beton2_etage1", "y": 270 }
+	}
+}

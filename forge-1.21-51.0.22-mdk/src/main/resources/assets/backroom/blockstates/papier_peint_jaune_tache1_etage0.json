@@ -1,0 +1,8 @@
+{
+	"variants": {
+		"facing=north":  { "model": "backroom:block/papier_peint_jaune_tache1_etage0" },
+		"facing=south":  { "model": "backroom:block/papier_peint_jaune_tache1_etage0", "y": 180 },
+		"facing=west":   { "model": "backroom:block/papier_peint_jaune_tache1_etage0", "y": 270 },
+		"facing=east":   { "model": "backroom:block/papier_peint_jaune_tache1_etage0", "y": 90 }
+	}
+}
