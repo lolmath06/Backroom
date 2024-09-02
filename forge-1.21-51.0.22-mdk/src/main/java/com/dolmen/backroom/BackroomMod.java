@@ -2,7 +2,7 @@ package com.dolmen.backroom;
 
 import com.dolmen.backroom.block.CustomBlockEntities;
 import com.dolmen.backroom.block.blocs_mod;
-import com.dolmen.backroom.entity.ClientModEvents;
+import com.dolmen.backroom.event.ClientModEvents;
 import com.dolmen.backroom.item.ModCreativeModTabs;
 import com.dolmen.backroom.item.item_mod;
 import com.dolmen.backroom.entity.ModEntities;

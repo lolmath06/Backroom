@@ -1,0 +1,23 @@
+{
+	"variants": {
+		"facing=north,half=bottom,open=false,powered=false": { "model": "backroom:block/grille_daeration1" },
+		"facing=north,half=bottom,open=true,powered=false": { "model": "backroom:block/grille_daeration_ouvert1" },
+		"facing=north,half=top,open=false,powered=false": { "model": "backroom:block/grille_daeration1" },
+		"facing=north,half=top,open=true,powered=false": { "model": "backroom:block/grille_daeration_ouvert1" },
+
+		"facing=south,half=bottom,open=false,powered=false": { "model": "backroom:block/grille_daeration1", "y": 180 },
+		"facing=south,half=bottom,open=true,powered=false": { "model": "backroom:block/grille_daeration_ouvert1", "y": 180 },
+		"facing=south,half=top,open=false,powered=false": { "model": "backroom:block/grille_daeration1", "y": 180 },
+		"facing=south,half=top,open=true,powered=false": { "model": "backroom:block/grille_daeration_ouvert1", "y": 180 },
+
+		"facing=west,half=bottom,open=false,powered=false": { "model": "backroom:block/grille_daeration1", "y": 270 },
+		"facing=west,half=bottom,open=true,powered=false": { "model": "backroom:block/grille_daeration_ouvert1", "y": 270 },
+		"facing=west,half=top,open=false,powered=false": { "model": "backroom:block/grille_daeration1", "y": 270 },
+		"facing=west,half=top,open=true,powered=false": { "model": "backroom:block/grille_daeration_ouvert1", "y": 270 },
+
+		"facing=east,half=bottom,open=false,powered=false": { "model": "backroom:block/grille_daeration1", "y": 90 },
+		"facing=east,half=bottom,open=true,powered=false": { "model": "backroom:block/grille_daeration_ouvert1", "y": 90 },
+		"facing=east,half=top,open=false,powered=false": { "model": "backroom:block/grille_daeration1", "y": 90 },
+		"facing=east,half=top,open=true,powered=false": { "model": "backroom:block/grille_daeration_ouvert1", "y": 90 }
+	}
+}

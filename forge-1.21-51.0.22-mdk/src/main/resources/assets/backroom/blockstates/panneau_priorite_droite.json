@@ -1,0 +1,8 @@
+{
+	"variants": {
+		"facing=north": { "model": "backroom:block/panneau_priorite_droite" },
+		"facing=east": { "model": "backroom:block/panneau_priorite_droite", "y": 90 },
+		"facing=south": { "model": "backroom:block/panneau_priorite_droite", "y": 180 },
+		"facing=west": { "model": "backroom:block/panneau_priorite_droite", "y": 270 }
+	}
+}

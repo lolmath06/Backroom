@@ -95,7 +95,7 @@ public class ChaiseManilla extends Block {
     private static final VoxelShape HEADREST_EAST = Block.box(3, 19, 3, 4, 20, 13);
 
     public ChaiseManilla() {
-        super(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).strength(2.0f, 3.0f));
+        super(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).strength(-1.0F, 3600000.0F));
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
     }
 

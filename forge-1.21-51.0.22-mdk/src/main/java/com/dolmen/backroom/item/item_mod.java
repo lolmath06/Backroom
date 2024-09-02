@@ -1,8 +1,10 @@
 package com.dolmen.backroom.item;
 
 import com.dolmen.backroom.BackroomMod;
+import com.dolmen.backroom.entity.ModEntities;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
+import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -36,6 +38,18 @@ public class item_mod {
     public static final RegistryObject<Item> CATALYSTE_DIMENSIONNEL = ITEMS.register("catalyste_dimensionnel",
             () -> new Item(new Item.Properties()
                     .stacksTo(64)));
+
+    public static final RegistryObject<Item> DEATH_MOTH_SPAWN_EGG = ITEMS.register("death_moth_spawn_egg",
+            () -> new ForgeSpawnEggItem(
+                    ModEntities.DEATH_MOTHS,
+                    0xC5903B, // Base color of the egg
+                    0x4A391D, // Spots color of the egg
+                    new Item.Properties() // Item properties
+                            .stacksTo(64) // Ensure correct registry name in 1.21
+            )
+    );
+
+
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
     }

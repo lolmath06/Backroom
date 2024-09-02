@@ -1,0 +1,8 @@
+{
+	"variants": {
+		"facing=north": { "model": "backroom:block/panneau_double_sens" },
+		"facing=east": { "model": "backroom:block/panneau_double_sens", "y": 90 },
+		"facing=south": { "model": "backroom:block/panneau_double_sens", "y": 180 },
+		"facing=west": { "model": "backroom:block/panneau_double_sens", "y": 270 }
+	}
+}

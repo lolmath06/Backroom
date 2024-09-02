@@ -1,0 +1,8 @@
+{
+	"variants": {
+		"facing=north": { "model": "backroom:block/cable2_etage1" },
+		"facing=east": { "model": "backroom:block/cable2_etage1", "y": 90 },
+		"facing=south": { "model": "backroom:block/cable2_etage1", "y": 180 },
+		"facing=west": { "model": "backroom:block/cable2_etage1", "y": 270 }
+	}
+}

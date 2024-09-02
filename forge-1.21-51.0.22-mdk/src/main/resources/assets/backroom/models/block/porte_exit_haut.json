@@ -2,6 +2,7 @@
 	"credit": "Made with Blockbench",
 	"textures": {
 		"0": "backroom:block/porte_exit_etage0",
+		"1": "backroom:block/exit",
 		"particle": "backroom:block/porte_exit_etage0"
 	},
 	"elements": [
@@ -216,6 +217,30 @@
 				"up": {"uv": [5.2637, 8.0627, 5.4282, 8.2272], "texture": "#0"},
 				"down": {"uv": [5.2637, 8.0627, 5.4282, 8.2272], "texture": "#0"}
 			}
+		},
+		{
+			"from": [4.3, 7.4, 1.5],
+			"to": [11.8, 12.4, 1.51],
+			"faces": {
+				"north": {"uv": [0, 0, 7.5, 5], "texture": "#1"},
+				"east": {"uv": [0, 0, 0.01, 5], "texture": "#1"},
+				"south": {"uv": [0, 0, 15.6, 15.2], "texture": "#1"},
+				"west": {"uv": [0, 0, 0.01, 5], "texture": "#1"},
+				"up": {"uv": [0, 0, 7.5, 0.01], "texture": "#1"},
+				"down": {"uv": [0, 0, 7.5, 0.01], "texture": "#1"}
+			}
+		},
+		{
+			"from": [4, 7.4, -0.01],
+			"to": [11.5, 12.4, 0],
+			"faces": {
+				"north": {"uv": [0, 0, 15.6, 15.2], "texture": "#1"},
+				"east": {"uv": [0, 0, 0.01, 5], "texture": "#1"},
+				"south": {"uv": [0, 0, 7.5, 5], "texture": "#1"},
+				"west": {"uv": [0, 0, 0.01, 5], "texture": "#1"},
+				"up": {"uv": [0, 0, 7.5, 0.01], "texture": "#1"},
+				"down": {"uv": [0, 0, 7.5, 0.01], "texture": "#1"}
+			}
 		}
 	],
 	"display": {
@@ -245,6 +270,8 @@
 				14,
 				15
 			]
-		}
+		},
+		16,
+		17
 	]
 }

@@ -1,0 +1,71 @@
+package com.dolmen.backroom.block.etage1.tuyau;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
+
+public class Cable5Block extends Block {
+    public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+
+    // Voxel shapes for each direction
+    private static final VoxelShape SHAPE_NORTH = Shapes.or(
+            Block.box(0, 13.75, 7.25, 7.25, 15.25, 8.75),
+            Block.box(7.25, 13.75, 0, 8.75, 15.25, 8.75)
+    );
+
+    private static final VoxelShape SHAPE_SOUTH = Shapes.or(
+            Block.box(8.75, 13.75, 7.25, 16, 15.25, 8.75),
+            Block.box(7.25, 13.75, 7.25, 8.75, 15.25, 16)
+    );
+
+    private static final VoxelShape SHAPE_WEST = Shapes.or(
+            Block.box(7.25, 13.75, 8.75, 8.75, 15.25, 16),
+            Block.box(0, 13.75, 7.25, 8.75, 15.25, 8.75)
+    );
+
+    private static final VoxelShape SHAPE_EAST = Shapes.or(
+            Block.box(7.25, 13.75, 0, 8.75, 15.25, 7.25),
+            Block.box(8.75, 13.75, 7.25, 16, 15.25, 8.75)
+    );
+
+    public Cable5Block() {
+        super(Properties.ofFullCopy(Blocks.IRON_BLOCK).strength(1.0f));
+        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
+    }
+
+    @Override
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
+    }
+
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(FACING);
+    }
+
+    @Override
+    public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+        Direction direction = state.getValue(FACING);
+        switch (direction) {
+            case SOUTH:
+                return SHAPE_SOUTH;
+            case WEST:
+                return SHAPE_WEST;
+            case EAST:
+                return SHAPE_EAST;
+            case NORTH:
+            default:
+                return SHAPE_NORTH;
+        }
+    }
+}

@@ -22,13 +22,13 @@ public class CustomDoorBlock extends DoorBlock {
     public static final EnumProperty<DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
 
     private static final VoxelShape SHAPE_CLOSED_NORTH = Block.box(0, 0, 0, 16, 16, 3);
-    private static final VoxelShape SHAPE_OPEN_NORTH = Block.box(13, 0, 0, 16, 16, 16);
+    private static final VoxelShape SHAPE_OPEN_NORTH = Block.box(14.5, 0, 0, 16, 16, 16);
     private static final VoxelShape SHAPE_CLOSED_SOUTH = Block.box(0, 0, 13, 16, 16, 16);
-    private static final VoxelShape SHAPE_OPEN_SOUTH = Block.box(0, 0, 0, 3, 16, 16);
+    private static final VoxelShape SHAPE_OPEN_SOUTH = Block.box(0, 0, 0, 1.5, 16, 16);
     private static final VoxelShape SHAPE_CLOSED_WEST = Block.box(0, 0, 0, 3, 16, 16);
-    private static final VoxelShape SHAPE_OPEN_WEST = Block.box(0, 0, 0, 16, 16, 3);
+    private static final VoxelShape SHAPE_OPEN_WEST = Block.box(0, 0, 0, 16, 16, 1.5);
     private static final VoxelShape SHAPE_CLOSED_EAST = Block.box(13, 0, 0, 16, 16, 16);
-    private static final VoxelShape SHAPE_OPEN_EAST = Block.box(0, 0, 13, 16, 16, 16);
+    private static final VoxelShape SHAPE_OPEN_EAST = Block.box(0, 0, 14.5, 16, 16, 16);
 
     public CustomDoorBlock() {
         super(BlockSetType.OAK, BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_DOOR).strength(3.0f, 3.0f).noOcclusion());

@@ -64,7 +64,7 @@ public class LustreManilla extends Block {
     private static final VoxelShape SHAPE = Shapes.or(SHAPE_1, SHAPE_2, SHAPE_3, SHAPE_4, SHAPE_5, SHAPE_6, SHAPE_7, SHAPE_8, SHAPE_9, SHAPE_10, SHAPE_11, SHAPE_12, SHAPE_13, SHAPE_14, SHAPE_15, SHAPE_16, SHAPE_17, SHAPE_18, SHAPE_19, SHAPE_20, SHAPE_21, SHAPE_22, SHAPE_23, SHAPE_24, SHAPE_25, SHAPE_26, SHAPE_27, SHAPE_28, SHAPE_29, SHAPE_30, SHAPE_31, SHAPE_32, SHAPE_33, SHAPE_34, SHAPE_35, SHAPE_36, SHAPE_37, SHAPE_38, SHAPE_39, SHAPE_40, SHAPE_41);
 
     public LustreManilla() {
-        super(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).strength(0.3f).lightLevel((state) -> 15)); // Setting light level to maximum (15)
+        super(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).strength(-1.0F, 3600000.0F));
         this.registerDefaultState(this.stateDefinition.any().setValue(LIT, true));
     }
 

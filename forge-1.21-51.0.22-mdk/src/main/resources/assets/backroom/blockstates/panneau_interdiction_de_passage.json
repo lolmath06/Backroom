@@ -1,0 +1,8 @@
+{
+	"variants": {
+		"facing=north": { "model": "backroom:block/panneau_interdiction_de_passage" },
+		"facing=east": { "model": "backroom:block/panneau_interdiction_de_passage", "y": 90 },
+		"facing=south": { "model": "backroom:block/panneau_interdiction_de_passage", "y": 180 },
+		"facing=west": { "model": "backroom:block/panneau_interdiction_de_passage", "y": 270 }
+	}
+}

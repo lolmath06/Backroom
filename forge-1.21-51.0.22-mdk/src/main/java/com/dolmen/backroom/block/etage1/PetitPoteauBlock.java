@@ -18,7 +18,7 @@ public class PetitPoteauBlock extends Block {
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
     public PetitPoteauBlock() {
-        super(Properties.ofFullCopy(Blocks.STONE).strength(3.0f, 3.0f).noOcclusion());
+        super(Properties.ofFullCopy(Blocks.STONE).strength(-1.0F, 3600000.0F).noOcclusion());
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
     }
 

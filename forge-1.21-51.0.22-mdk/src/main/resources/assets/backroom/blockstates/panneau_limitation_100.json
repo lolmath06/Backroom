@@ -1,0 +1,8 @@
+{
+	"variants": {
+		"facing=north": { "model": "backroom:block/panneau_limitation_100" },
+		"facing=east": { "model": "backroom:block/panneau_limitation_100", "y": 90 },
+		"facing=south": { "model": "backroom:block/panneau_limitation_100", "y": 180 },
+		"facing=west": { "model": "backroom:block/panneau_limitation_100", "y": 270 }
+	}
+}
