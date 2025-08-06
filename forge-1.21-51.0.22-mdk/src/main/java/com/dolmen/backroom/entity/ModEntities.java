@@ -18,17 +18,16 @@ public class ModEntities {
                     .sized(0.25F, 0.25F)
                     .build(BackroomMod.MOD_ID + ":custom_ender_pearl"));
 
-    public static final RegistryObject<EntityType<DeathMothsEntity>> DEATH_MOTHS =
-            ENTITY_TYPES.register("death_moths",
-                    () -> EntityType.Builder.of(DeathMothsEntity::new, MobCategory.MONSTER)
-                            .sized(1f, 1f)
-                            .build(BackroomMod.MOD_ID + ":death_moths"));
+    public static final RegistryObject<EntityType<DeathMothsEntity>> DEADMOTH =
+            ENTITY_TYPES.register("deadmoth", () -> EntityType.Builder.of(DeathMothsEntity::new, MobCategory.MONSTER)
+                    .sized(1.0f, 0.8f)
+                    .build("deadmoth"));
 
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);
     }
 
     public static void registerAttributes(EntityAttributeCreationEvent event) {
-        event.put(DEATH_MOTHS.get(), DeathMothsEntity.createAttributes().build());
+        event.put(DEADMOTH.get(), DeathMothsEntity.createAttributes().build());
     }
 }

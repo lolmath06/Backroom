@@ -41,13 +41,15 @@ public class item_mod {
 
     public static final RegistryObject<Item> DEATH_MOTH_SPAWN_EGG = ITEMS.register("death_moth_spawn_egg",
             () -> new ForgeSpawnEggItem(
-                    ModEntities.DEATH_MOTHS,
-                    0xC5903B, // Base color of the egg
-                    0x4A391D, // Spots color of the egg
-                    new Item.Properties() // Item properties
-                            .stacksTo(64) // Ensure correct registry name in 1.21
+                    ModEntities.DEADMOTH,
+                    0xC5903B,
+                    0x4A391D,
+                    new Item.Properties()
+                            .stacksTo(64)
             )
     );
+    public static final RegistryObject<Item> MOTH_JELLY = ITEMS.register("moth_jelly",
+            () -> new MothJellyItem(new Item.Properties().stacksTo(16)));
 
 
     public static void register(IEventBus eventBus) {

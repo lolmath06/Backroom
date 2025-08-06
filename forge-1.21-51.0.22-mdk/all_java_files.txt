@@ -49,7 +49,6 @@ public class DeathMothsEntity extends Monster {
     private static final byte ATTACK_EVENT = 69;
 
     private int aggressiveTicks = 0;
-    public Direction lastStickDirection = null;
 
     public DeathMothsEntity(EntityType<? extends Monster> type, Level level) {
         super(type, level);
@@ -76,7 +75,7 @@ public class DeathMothsEntity extends Monster {
         if (aggressiveTicks > 0) {
             aggressiveTicks--;
             if (aggressiveTicks == 0) {
-                setTarget(null);
+                LOGGER.info("[DENMOS] L'agressivité s'est calmée.");
             }
         }
     }
@@ -92,7 +91,6 @@ public class DeathMothsEntity extends Monster {
 
     @Override
     protected void registerGoals() {
-        this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
         this.goalSelector.addGoal(0, new StickToWallGoal(this));
         this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.2, true));
         this.goalSelector.addGoal(2, new FlyAroundGoal(this));
@@ -100,6 +98,7 @@ public class DeathMothsEntity extends Monster {
         this.goalSelector.addGoal(4, new ConditionalRandomLookAroundGoal(this));
     }
 
+    // Custom goal qui ne regarde le joueur que si pas collé au mur
     static class ConditionalLookAtPlayerGoal extends LookAtPlayerGoal {
         private final DeathMothsEntity mob;
         public ConditionalLookAtPlayerGoal(DeathMothsEntity mob, Class<? extends LivingEntity> lookAtType, float lookDistance) {
@@ -111,7 +110,7 @@ public class DeathMothsEntity extends Monster {
             return !mob.isStickingToWall() && super.canUse();
         }
     }
-
+    // Custom goal qui ne regarde aléatoirement que si pas collé au mur
     static class ConditionalRandomLookAroundGoal extends RandomLookAroundGoal {
         private final DeathMothsEntity mob;
         public ConditionalRandomLookAroundGoal(DeathMothsEntity mob) {
@@ -130,6 +129,7 @@ public class DeathMothsEntity extends Monster {
 
     public void setCurrentAnimation(DeadMothAnimation animation) {
         if (currentAnimation != animation) {
+            LOGGER.info("[DENMOS] Animation changée : {} --> {}", currentAnimation, animation);
             currentAnimation = animation;
             animationStartTick = this.tickCount;
         }
@@ -175,6 +175,7 @@ public class DeathMothsEntity extends Monster {
     }
 
     public void setStickingToWall(boolean stick) {
+        LOGGER.info("[DENMOS] setStickingToWall({}) à {}", stick, this.blockPosition());
         if (!this.level().isClientSide) {
             this.stickingToWall = stick;
             this.entityData.set(DATA_STICKING_TO_WALL, stick);
@@ -182,75 +183,74 @@ public class DeathMothsEntity extends Monster {
     }
 
     public boolean isAggressive() {
-        return aggressiveTicks > 0 || this.getTarget() != null;
+        return aggressiveTicks > 0;
     }
-    public void makeAggressive(int duration, LivingEntity attacker) {
+    public void makeAggressive(int duration) {
         aggressiveTicks = duration;
-        if (attacker != null) setTarget(attacker);
+        LOGGER.info("[DENMOS] MOB AGRESSE pendant {} ticks", duration);
         if (isStickingToWall()) {
             setStickingToWall(false);
+            LOGGER.info("[DENMOS] Décollage du mur suite à agression !");
         }
     }
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        if (source.type().msgId().equals("inWall")) {
-            return false;
-        }
         boolean result = super.hurt(source, amount);
         if (!this.level().isClientSide) {
-            LivingEntity attacker = null;
-            if (source.getEntity() instanceof LivingEntity living) {
-                attacker = living;
-            }
-            makeAggressive(200, attacker);
+            makeAggressive(100);
         }
         return result;
-    }
-
-    @Override
-    public void knockback(double strength, double x, double z) {
     }
 
     @Nullable
     public BlockPos findWallToStick() {
         BlockPos pos = this.blockPosition();
         Level level = this.level();
+        LOGGER.info("[DENMOS][DEBUG] findWallToStick() called from {}", pos);
 
         for (Direction dir : Direction.Plane.HORIZONTAL) {
             for (int dist = 1; dist <= 3; dist++) {
                 for (int yOffset = -2; yOffset <= 2; yOffset++) {
                     BlockPos wallBase = pos.relative(dir, dist).offset(0, yOffset, 0);
                     boolean is4High = true;
+
                     for (int y = 0; y < 4; y++) {
                         BlockPos check = wallBase.above(y);
                         BlockState state = level.getBlockState(check);
+                        LOGGER.info("[DENMOS][DEBUG] Test bloc pour mur: {} (Yoffset={} y={}), état: {} (isAir={})", check, yOffset, y, state.getBlock(), state.isAir());
                         if (state.isAir()) {
                             is4High = false;
                             break;
                         }
                     }
-                    if (!is4High) continue;
+                    LOGGER.info("[DENMOS][DEBUG] Test de colonne dir={} dist={} Yoffset={} : wallBase={} => is4High={}", dir, dist, yOffset, wallBase, is4High);
 
-                    BlockPos stickTo = wallBase.above(2);
-                    BlockPos inFront1 = stickTo.relative(dir.getOpposite());
-                    BlockPos inFront2 = stickTo.relative(dir.getOpposite(), 2);
-                    boolean frontAir1 = level.getBlockState(inFront1).isAir();
-                    boolean frontAir2 = level.getBlockState(inFront2).isAir();
-                    if (!frontAir1 || !frontAir2) continue;
+                    if (is4High) {
+                        BlockPos stickTo = wallBase.above(1);
+                        BlockPos inFront = stickTo.relative(dir.getOpposite());
+                        BlockPos inFront2 = stickTo.relative(dir.getOpposite(), 2);
+                        boolean frontAir = level.getBlockState(inFront).isAir();
+                        boolean front2Air = level.getBlockState(inFront2).isAir();
+                        LOGGER.info("[DENMOS][DEBUG] inFront={} isAir={} | inFront2={} isAir={}", inFront, frontAir, inFront2, front2Air);
 
-                    this.lastStickDirection = dir;
-                    return stickTo;
+                        if (frontAir && front2Air) {
+                            LOGGER.info("[DENMOS] Mur de 4 trouvé à {} dir={} | Base: {} | baseY={} | inFront: {} et {}", pos, dir, wallBase, wallBase.getY(), inFront, inFront2);
+                            return stickTo;
+                        } else {
+                            LOGGER.info("[DENMOS][DEBUG] Mur détecté mais pas assez d'air devant : {} ou {}", inFront, inFront2);
+                        }
+                    }
                 }
             }
         }
+        LOGGER.info("[DENMOS] Aucun mur de 4 à proximité depuis {}", pos);
         return null;
     }
 
     static class StickToWallGoal extends Goal {
         private final DeathMothsEntity mob;
         private BlockPos wallPos;
-        private Direction wallDir;
 
         public StickToWallGoal(DeathMothsEntity mob) { this.mob = mob; }
 
@@ -259,38 +259,44 @@ public class DeathMothsEntity extends Monster {
             if (mob.isStickingToWall()) return false;
             if (mob.isAggressive()) return false;
             wallPos = mob.findWallToStick();
-            wallDir = mob.lastStickDirection;
-            return wallPos != null && wallDir != null;
+            boolean result = wallPos != null;
+            mob.LOGGER.info("[DENMOS] StickToWallGoal.canUse = {} (wallPos = {})", result, wallPos);
+            return result;
         }
 
         @Override
         public void start() {
             mob.setStickingToWall(true);
+            mob.getNavigation().moveTo(wallPos.getX() + 0.5, wallPos.getY() + 0.1, wallPos.getZ() + 0.5, 1.2);
             mob.setCurrentAnimation(DeadMothAnimation.IDLE_WALL);
+            mob.LOGGER.info("[DENMOS] START COLLAGE MUR à {}", wallPos);
         }
 
         @Override
         public boolean canContinueToUse() {
-            return mob.isStickingToWall() && !mob.isAggressive();
+            boolean stillStuck = mob.isStickingToWall() && !mob.isAggressive();
+            mob.LOGGER.info("[DENMOS] StickToWallGoal.canContinueToUse = {} | stickingToWall={} | aggressive={}", stillStuck, mob.isStickingToWall(), mob.isAggressive());
+            return stillStuck;
         }
 
         @Override
         public void tick() {
-            double stickOffset = 0.501;
-            double mobHeight = mob.getBbHeight();
-            double y = wallPos.getY() + 1.5 - (mobHeight / 2.0);
-            double x = wallPos.getX() + 0.5 - wallDir.getStepX() * stickOffset;
-            double z = wallPos.getZ() + 0.5 - wallDir.getStepZ() * stickOffset;
-
-            mob.setPos(x, y, z);
-            mob.setDeltaMovement(0, 0, 0);
-            mob.getNavigation().stop();
+            double dist = mob.position().distanceTo(net.minecraft.world.phys.Vec3.atCenterOf(wallPos));
+            if (dist > 0.2) {
+                mob.getNavigation().moveTo(wallPos.getX() + 0.5, wallPos.getY() + 0.1, wallPos.getZ() + 0.5, 1.2);
+                mob.LOGGER.info("[DENMOS] Correction position collage mur : {} -> {}", mob.position(), wallPos);
+            } else {
+                mob.setDeltaMovement(0, 0, 0);
+                mob.getNavigation().stop();
+                mob.setPos(wallPos.getX() + 0.5, wallPos.getY() + 0.1, wallPos.getZ() + 0.5);
+            }
             mob.setCurrentAnimation(DeadMothAnimation.IDLE_WALL);
         }
 
         @Override
         public void stop() {
             mob.setStickingToWall(false);
+            mob.LOGGER.info("[DENMOS] STOP COLLAGE MUR (à {}), on repasse à l'état normal", wallPos);
         }
     }
 
@@ -304,23 +310,14 @@ public class DeathMothsEntity extends Monster {
         @Override
         public void tick() { if (mob.getNavigation().isDone()) { pickNewDestination(); } }
         private void pickNewDestination() {
-            double minFlyHeight = 2.0;
-            double worldMax = mob.level().getMaxBuildHeight();
-            double safeCeil = worldMax - 3.0;
-
-            double y = Math.max(minFlyHeight, Math.min(mob.getY() + (mob.getRandom().nextDouble() - 0.5) * 2.0 + 1.5, safeCeil));
             double x = mob.getX() + (mob.getRandom().nextDouble() - 0.5) * 8.0;
+            double y = Math.min(mob.getY() + (mob.getRandom().nextDouble() - 0.5) * 4.0 + 2.0,
+                    mob.level().getMaxBuildHeight() - 2);
             double z = mob.getZ() + (mob.getRandom().nextDouble() - 0.5) * 8.0;
-
-            for (int i = 1; i <= 2; i++) {
-                BlockPos ceilingCheck = new BlockPos((int)x, (int)(y+i), (int)z);
-                if (!mob.level().getBlockState(ceilingCheck).isAir()) {
-                    y = y - i;
-                    break;
-                }
-            }
-
+            BlockPos pos = new BlockPos((int) x, (int) (y + 1), (int) z);
+            if (!mob.level().getBlockState(pos).isAir()) y -= 1.0;
             mob.getNavigation().moveTo(x, y, z, 1.0);
+            mob.LOGGER.info("[DENMOS] FlyAroundGoal: nouvelle destination {},{},{}", x, y, z);
         }
     }
 
@@ -328,6 +325,7 @@ public class DeathMothsEntity extends Monster {
     public boolean doHurtTarget(Entity target) {
         if (!this.level().isClientSide) {
             this.level().broadcastEntityEvent(this, ATTACK_EVENT);
+            LOGGER.info("[DENMOS] Attaque cible: {} à {}", target, this.blockPosition());
         }
         return super.doHurtTarget(target);
     }
@@ -336,6 +334,7 @@ public class DeathMothsEntity extends Monster {
     public void handleEntityEvent(byte id) {
         if (id == ATTACK_EVENT) {
             this.attackTicksRemaining = 10;
+            LOGGER.info("[DENMOS] handleEntityEvent: attaque déclenchée !");
         } else {
             super.handleEntityEvent(id);
         }
@@ -350,12 +349,14 @@ public class DeathMothsEntity extends Monster {
     public void tick() {
         super.tick();
 
-        if (this.isStickingToWall() && this.lastStickDirection != null) {
-            float yaw = this.lastStickDirection.toYRot();
-            this.setYRot(yaw);
-            this.setXRot(-90.0f);
-            this.yBodyRot = yaw;
-            this.yHeadRot = yaw;
+        LOGGER.info("[DENMOS] TICK - Animation: {} | stickingToWall: {} | aggressiveTicks: {} | pos: {} | attackTicks: {}", currentAnimation, isStickingToWall(), aggressiveTicks, this.blockPosition(), attackTicksRemaining);
+
+        if (this.isStickingToWall()) {
+            // Fige complètement la rotation (statue sur le mur)
+            this.setYRot(this.getYRot());
+            this.setXRot(0.0f);
+            this.yBodyRot = this.getYRot();
+            this.yHeadRot = this.getYRot();
             this.setDeltaMovement(0, 0, 0);
         }
 
@@ -372,15 +373,6 @@ public class DeathMothsEntity extends Monster {
             setCurrentAnimation(DeadMothAnimation.IDLE_WALL);
         } else if (this.onGround()) {
             setCurrentAnimation(DeadMothAnimation.IDLE_GROUND);
-        }
-
-        if (!this.isStickingToWall() && !this.onGround()) {
-            BlockPos ceilingPos = this.blockPosition().above((int)Math.ceil(this.getBbHeight() + 0.2));
-            if (!this.level().getBlockState(ceilingPos).isAir()) {
-                double newY = this.getY() - 0.2;
-                this.setPos(this.getX(), newY, this.getZ());
-                this.setDeltaMovement(this.getDeltaMovement().x, -0.15, this.getDeltaMovement().z);
-            }
         }
     }
 
@@ -399,4 +391,5 @@ public class DeathMothsEntity extends Monster {
             this.entityData.set(DATA_STICKING_TO_WALL, stick);
         }
     }
+
 }

@@ -1,62 +1,27 @@
 package com.dolmen.backroom.entity.client;
 
 import com.dolmen.backroom.entity.custom.DeathMothsEntity;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.dolmen.backroom.entity.animations.DeadMothAnimations;
 import net.minecraft.client.model.HierarchicalModel;
+import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.world.entity.Entity;
+		import net.minecraft.world.entity.Entity;
 
-public class DeathMoths<T extends Entity> extends HierarchicalModel<T> {
+public class DeadMothModel<T extends DeathMothsEntity> extends HierarchicalModel<T> {
+	// --- Parties du modèle
 	private final ModelPart bone;
-	private final ModelPart pate3;
-	private final ModelPart pate3_1;
-	private final ModelPart pate3_2;
-	private final ModelPart pate3_3;
-	private final ModelPart pate3_4;
-	private final ModelPart pate3_5;
-	private final ModelPart pate3_6;
-	private final ModelPart pate2;
-	private final ModelPart pate2_1;
-	private final ModelPart pate2_2;
-	private final ModelPart pate2_3;
-	private final ModelPart pate2_4;
-	private final ModelPart pate2_5;
-	private final ModelPart pate2_6;
-	private final ModelPart pate1;
-	private final ModelPart pate1_1;
-	private final ModelPart pate1_2;
-	private final ModelPart pate1_3;
-	private final ModelPart pate1_4;
-	private final ModelPart pate1_5;
-	private final ModelPart pate1_6;
-	private final ModelPart aile2;
-	private final ModelPart aile2_1;
-	private final ModelPart aile2_2;
-	private final ModelPart aile1;
-	private final ModelPart aile1_1;
-	private final ModelPart aile1_2;
-	private final ModelPart antenne;
-	private final ModelPart antenne1;
-	private final ModelPart antenne2;
-	private final ModelPart tete;
-	private final ModelPart tete1;
-	private final ModelPart tete2;
-	private final ModelPart abdomen;
-	private final ModelPart abdomen1;
-	private final ModelPart abdomen2;
-	private final ModelPart abdomen3;
-	private final ModelPart abdomen4;
-	private final ModelPart abdomen5;
-	private final ModelPart abdomen6;
-	private final ModelPart abdomen7;
-	private final ModelPart abdomen8;
-	private final ModelPart abdomen9;
-	private final ModelPart abdomen10;
+	private final ModelPart pate3, pate3_1, pate3_2, pate3_3, pate3_4, pate3_5, pate3_6;
+	private final ModelPart pate2, pate2_1, pate2_2, pate2_3, pate2_4, pate2_5, pate2_6;
+	private final ModelPart pate1, pate1_1, pate1_2, pate1_3, pate1_4, pate1_5, pate1_6;
+	private final ModelPart aile2, aile2_1, aile2_2;
+	private final ModelPart aile1, aile1_1, aile1_2;
+	private final ModelPart antenne, antenne1, antenne2;
+	private final ModelPart tete, tete1, tete2;
+	private final ModelPart abdomen, abdomen1, abdomen2, abdomen3, abdomen4, abdomen5, abdomen6, abdomen7, abdomen8, abdomen9, abdomen10;
 
-	public DeathMoths(ModelPart root) {
+	public DeadMothModel(ModelPart root) {
 		this.bone = root.getChild("bone");
 		this.pate3 = this.bone.getChild("pate3");
 		this.pate3_1 = this.pate3.getChild("pate3_1");
@@ -110,7 +75,6 @@ public class DeathMoths<T extends Entity> extends HierarchicalModel<T> {
 		this.abdomen9 = this.abdomen.getChild("abdomen9");
 		this.abdomen10 = this.abdomen.getChild("abdomen10");
 	}
-
 
 	public static LayerDefinition createBodyLayer() {
 		MeshDefinition meshdefinition = new MeshDefinition();
@@ -209,8 +173,8 @@ public class DeathMoths<T extends Entity> extends HierarchicalModel<T> {
 		PartDefinition tete1 = tete.addOrReplaceChild("tete1", CubeListBuilder.create().texOffs(0, 0).addBox(-8.5F, -17.0F, -2.5F, 11.0F, 11.0F, 11.0F, new CubeDeformation(0.0F)), PartPose.offset(9.0F, 2.0F, -3.0F));
 
 		PartDefinition tete2 = tete.addOrReplaceChild("tete2", CubeListBuilder.create().texOffs(12, 4).addBox(-9.5F, -14.0F, -4.5F, 3.0F, 7.0F, 7.0F, new CubeDeformation(0.0F))
-		.texOffs(54, 37).addBox(-8.0F, -14.5F, -5.0F, 2.0F, 3.0F, 3.0F, new CubeDeformation(0.0F))
-		.texOffs(54, 37).addBox(-8.0F, -14.5F, 0.0F, 2.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(21.0F, 1.0F, 1.0F));
+				.texOffs(54, 37).addBox(-8.0F, -14.5F, -5.0F, 2.0F, 3.0F, 3.0F, new CubeDeformation(0.0F))
+				.texOffs(54, 37).addBox(-8.0F, -14.5F, 0.0F, 2.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(21.0F, 1.0F, 1.0F));
 
 		PartDefinition abdomen = bone.addOrReplaceChild("abdomen", CubeListBuilder.create(), PartPose.offsetAndRotation(-22.0F, 4.0F, 0.0F, 0.0F, 0.0F, 1.5708F));
 
@@ -225,56 +189,43 @@ public class DeathMoths<T extends Entity> extends HierarchicalModel<T> {
 		PartDefinition abdomen5 = abdomen.addOrReplaceChild("abdomen5", CubeListBuilder.create().texOffs(35, 15).addBox(-11.5F, -3.5F, -1.0F, 8.0F, 2.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(-6.0F, -1.0F, -3.0F));
 
 		PartDefinition abdomen6 = abdomen.addOrReplaceChild("abdomen6", CubeListBuilder.create().texOffs(24, 49).addBox(-11.5F, -5.5F, -1.0F, 8.0F, 1.0F, 8.0F, new CubeDeformation(0.0F))
-		.texOffs(35, 13).addBox(-12.0F, -4.5F, -1.5F, 9.0F, 3.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(-6.0F, -3.0F, -3.0F));
+				.texOffs(35, 13).addBox(-12.0F, -4.5F, -1.5F, 9.0F, 3.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(-6.0F, -3.0F, -3.0F));
 
 		PartDefinition abdomen7 = abdomen.addOrReplaceChild("abdomen7", CubeListBuilder.create().texOffs(24, 49).addBox(-11.5F, -6.0F, -1.0F, 8.0F, 1.0F, 8.0F, new CubeDeformation(0.0F))
-		.texOffs(35, 13).addBox(-12.0F, -5.0F, -1.5F, 9.0F, 3.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(-6.0F, -6.0F, -3.0F));
+				.texOffs(35, 13).addBox(-12.0F, -5.0F, -1.5F, 9.0F, 3.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(-6.0F, -6.0F, -3.0F));
 
 		PartDefinition abdomen8 = abdomen.addOrReplaceChild("abdomen8", CubeListBuilder.create().texOffs(35, 13).addBox(-12.0F, -0.5F, -1.5F, 9.0F, 3.0F, 9.0F, new CubeDeformation(0.0F))
-		.texOffs(24, 49).addBox(-11.5F, -1.5F, -1.0F, 8.0F, 1.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(-6.0F, -14.0F, -3.0F));
+				.texOffs(24, 49).addBox(-11.5F, -1.5F, -1.0F, 8.0F, 1.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(-6.0F, -14.0F, -3.0F));
 
 		PartDefinition abdomen9 = abdomen.addOrReplaceChild("abdomen9", CubeListBuilder.create().texOffs(24, 49).addBox(-11.5F, -5.0F, -1.0F, 8.0F, 1.0F, 8.0F, new CubeDeformation(0.0F))
-		.texOffs(35, 13).addBox(-12.0F, -4.0F, -1.5F, 9.0F, 3.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(-6.0F, -14.0F, -3.0F));
+				.texOffs(35, 13).addBox(-12.0F, -4.0F, -1.5F, 9.0F, 3.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(-6.0F, -14.0F, -3.0F));
 
 		PartDefinition abdomen10 = abdomen.addOrReplaceChild("abdomen10", CubeListBuilder.create().texOffs(35, 13).addBox(-12.0F, -0.5F, -1.5F, 9.0F, 3.0F, 9.0F, new CubeDeformation(0.0F))
-		.texOffs(24, 49).addBox(-11.5F, -1.5F, -1.0F, 8.0F, 1.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(-6.0F, -21.0F, -3.0F));
+				.texOffs(24, 49).addBox(-11.5F, -1.5F, -1.0F, 8.0F, 1.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(-6.0F, -21.0F, -3.0F));
 
 		return LayerDefinition.create(meshdefinition, 512, 512);
 	}
 
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-		this.root().getAllParts().forEach((ModelPart::resetPose));
+		this.root().getAllParts().forEach(ModelPart::resetPose);
 
-		if (entity instanceof DeathMothsEntity mothEntity) {
-			// Obtenir l'état d'animation de l'entité
-			String animationState = mothEntity.getAnimationState();
-
-			// Forcer l'animation à "rester_immobile_sol"
-			animationState = "rester_immobile_sol";
-
-			switch (animationState) {
-				case "rester_immobile_sol":
-					// Appliquer l'animation immobile sur le sol
-					this.aile1.xRot = 0;
-					this.aile2.xRot = 0;
-					// Ajouter d'autres transformations nécessaires pour cette animation
-					break;
-				default:
-					// Si vous avez d'autres états d'animation, gérez-les ici
-					break;
+		if (entity != null) {
+			if (entity.isStickingToWall()) {
+				this.bone.zRot = (float) Math.toRadians(-90.0);
+			}
+			switch (entity.getCurrentAnimation()) {
+				case IDLE_GROUND -> this.animate(entity.idleGroundAnimationState, DeadMothAnimations.IDLE_GROUND, ageInTicks, 1f);
+				case IDLE_WALL -> this.animate(entity.idleWallAnimationState, DeadMothAnimations.IDLE_WALL, ageInTicks, 1f);
+				case FLY -> this.animate(entity.flyAnimationState, DeadMothAnimations.FLY, ageInTicks, 1f);
+				case ATTACK -> this.animate(entity.attackAnimationState, DeadMothAnimations.ATTACK, ageInTicks, 1f);
 			}
 		}
 	}
 
-	@Override
-	public void renderToBuffer(PoseStack pPoseStack, VertexConsumer pBuffer, int pPackedLight, int pPackedOverlay, int pColor) {
-		super.renderToBuffer(pPoseStack, pBuffer, pPackedLight, pPackedOverlay, pColor);
-	}
 
 	@Override
 	public ModelPart root() {
 		return this.bone;
 	}
-
 }

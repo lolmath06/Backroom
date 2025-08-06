@@ -15,6 +15,6 @@ public class ClientModEvents {
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(ModEntities.CUSTOM_ENDER_PEARL.get(), ThrownItemRenderer::new);
-        event.registerEntityRenderer(ModEntities.DEATH_MOTHS.get(), DeathMothsRender::new);
+        event.registerEntityRenderer(ModEntities.DEADMOTH.get(), DeathMothsRender::new);
     }
 }

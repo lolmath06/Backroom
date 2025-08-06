@@ -144,6 +144,7 @@ public class ModCreativeModTabs {
                         pOutput.accept(blocs_mod.TUYAU_BLEU10_ETAGE1.get());
                         pOutput.accept(blocs_mod.TUYAU_BLEU11_ETAGE1.get());
                         pOutput.accept(item_mod.DEATH_MOTH_SPAWN_EGG.get());
+                        pOutput.accept(item_mod.MOTH_JELLY.get());
                     })
                     .build());
 
